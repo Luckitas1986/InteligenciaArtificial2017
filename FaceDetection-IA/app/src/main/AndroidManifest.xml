@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.ld.facedetection_ia">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <meta-data
+        android:name="com.google.android.gms.vision.DEPENDENCIES"
+        android:value="face" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/logo_ia"
+        android:label="Face Detection IA"
+        android:roundIcon="@drawable/logo_ia"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".PantallaPrincipal">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ReconocerCaraDesdeFoto"
+            android:label="Detección de rostro desde imagen"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".ReconocerCaraDesdeCamara"
+            android:label="Detección de rostro desde cámara"
+            android:screenOrientation="portrait">
+        </activity>
+    </application>
+
+</manifest>

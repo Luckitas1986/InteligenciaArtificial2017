@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.ld.facedetection_ia.PantallaPrincipal">
+  <ImageView
+      android:src="@drawable/fondo"
+      android:layout_width="wrap_content"
+      android:layout_height="400dp"
+      android:id="@+id/imageView2" />
+  <Button
+      android:id="@+id/btnReconocerPorFoto"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Reconocer rostro desde imagen"
+      tools:layout_editor_absoluteX="60dp"
+      tools:layout_editor_absoluteY="447dp"
+      android:layout_alignParentBottom="true"
+      android:layout_alignRight="@+id/btnReconocerDesdeCamara"
+      android:layout_alignEnd="@+id/btnReconocerDesdeCamara"
+      android:layout_marginBottom="15dp" />
+    <Button
+        android:id="@+id/btnReconocerDesdeCamara"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reconocer rostro desde cámara"
+        tools:layout_editor_absoluteX="60dp"
+        tools:layout_editor_absoluteY="457dp"
+        android:layout_above="@+id/btnReconocerPorFoto"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>
