@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">FaceDetection-IA</string>
+    <string name="ok">OK</string>
+    <string name="permission_camera_rationale">EL acceso a la camara es necesario para la detección</string>
+    <string name="no_camera_permission">La aplicación no puede ejecutarse debido a que no cuenta con permisos sobre la cámara. La aplicación se cerrará.</string>
+    <string name="low_storage_error">Las dependencias de Face detector no pueden ser desacragadas por la falta de espacio en el dispositivo</string>
 </resources>

@@ -40,13 +40,22 @@ public class PantallaPrincipal extends AppCompatActivity {
             }
         });
 
-        btnReconocerRostroDesdeCamara.setOnClickListener(new View.OnClickListener() {
+       /** btnReconocerRostroDesdeCamara.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent reconocerCaraDesdeCamara = new Intent(getApplicationContext(), ReconocerCaraDesdeCamara.class);
                 startActivity(reconocerCaraDesdeCamara);
             }
         });
+*/
+        btnReconocerRostroDesdeCamara.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent reconocerCaraDesdeFIlmacion = new Intent(getApplicationContext(), ReconocerCaraDesdeFilmacion.class);
+                startActivity(reconocerCaraDesdeFIlmacion);
+            }
+        });
+
 
     }
 }

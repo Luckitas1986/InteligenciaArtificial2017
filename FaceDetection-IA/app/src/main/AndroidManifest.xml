@@ -2,11 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ld.facedetection_ia">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
-    <meta-data
-        android:name="com.google.android.gms.vision.DEPENDENCIES"
-        android:value="face" />
+    <uses-sdk
+        android:minSdkVersion="9"
+        android:targetSdkVersion="23" />
+
 
     <application
         android:allowBackup="true"
@@ -15,6 +19,14 @@
         android:roundIcon="@drawable/logo_ia"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="face" />
+
         <activity android:name=".PantallaPrincipal">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,6 +43,11 @@
             android:name=".ReconocerCaraDesdeCamara"
             android:label="Detección de rostro desde cámara"
             android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".ReconocerCaraDesdeFilmacion"
+            android:label="Face Tracker"
+            android:screenOrientation="fullSensor">
         </activity>
     </application>
 
