@@ -11,6 +11,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.util.SparseArrayCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.Button;
@@ -21,9 +22,12 @@ import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
 
+import java.time.LocalDateTime;
+
+import javax.mail.MessagingException;
+
 public class PantallaPrincipal extends AppCompatActivity {
     Button btnReconocerRostroDesdeImagen, btnReconocerRostroDesdeCamara;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,22 +44,23 @@ public class PantallaPrincipal extends AppCompatActivity {
             }
         });
 
-       /** btnReconocerRostroDesdeCamara.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent reconocerCaraDesdeCamara = new Intent(getApplicationContext(), ReconocerCaraDesdeCamara.class);
-                startActivity(reconocerCaraDesdeCamara);
-            }
+        /** btnReconocerRostroDesdeCamara.setOnClickListener(new View.OnClickListener() {
+        @Override public void onClick(View v) {
+        Intent reconocerCaraDesdeCamara = new Intent(getApplicationContext(), ReconocerCaraDesdeCamara.class);
+        startActivity(reconocerCaraDesdeCamara);
+        }
         });
-*/
+         */
         btnReconocerRostroDesdeCamara.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent reconocerCaraDesdeFIlmacion = new Intent(getApplicationContext(), ReconocerCaraDesdeFilmacion.class);
                 startActivity(reconocerCaraDesdeFIlmacion);
+                //Intent enviarMail = new Intent(getApplicationContext(), EnviarMail.class);
+                //startActivity(enviarMail);
             }
         });
 
-
     }
+
 }

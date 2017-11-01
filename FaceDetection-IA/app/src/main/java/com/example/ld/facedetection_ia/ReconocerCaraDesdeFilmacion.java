@@ -1,15 +1,5 @@
 package com.example.ld.facedetection_ia;
 
-import android.content.Intent;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Point;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 
 /**
@@ -25,12 +15,9 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.ld.facedetection_ia.camera.CameraSourcePreview;
 import com.example.ld.facedetection_ia.camera.GraphicOverlay;
@@ -42,9 +29,7 @@ import com.google.android.gms.vision.Tracker;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+
 import java.io.IOException;
 public class ReconocerCaraDesdeFilmacion extends AppCompatActivity {
     private static final String TAG = "FaceTracker";
@@ -63,7 +48,7 @@ public class ReconocerCaraDesdeFilmacion extends AppCompatActivity {
     //==============================================================================================
 
     /**
-     * Initializes the UI and initiates the creation of a face detector.
+     * Inicializa la  UI y la creación de un face detector.
      */
     @Override
     public void onCreate(Bundle icicle) {
@@ -73,8 +58,8 @@ public class ReconocerCaraDesdeFilmacion extends AppCompatActivity {
         mGraphicOverlay = (GraphicOverlay) findViewById(R.id.faceOverlay);
         textView = (TextView) findViewById(R.id.textViewFoto);
 
-        // Check for the camera permission before accessing the camera.  If the
-        // permission is not granted yet, request permission.
+        // Controla los permisos de acceso a la cámara.  Si el permiso no está dado aún
+        // lo requiere
         int rc = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
         if (rc == PackageManager.PERMISSION_GRANTED) {
             createCameraSource();
@@ -84,9 +69,7 @@ public class ReconocerCaraDesdeFilmacion extends AppCompatActivity {
     }
 
     /**
-     * Handles the requesting of the camera permission.  This includes
-     * showing a "Snackbar" message of why the permission is needed then
-     * sending the request.
+     * Maneja la solicitud de permiso de la cámara
      */
     private void requestCameraPermission() {
         Log.w(TAG, "Camera permission is not granted. Requesting permission");
@@ -132,14 +115,7 @@ public class ReconocerCaraDesdeFilmacion extends AppCompatActivity {
                         .build());
 
         if (!detector.isOperational()) {
-            // Note: The first time that an app using face API is installed on a device, GMS will
-            // download a native library to the device in order to do detection.  Usually this
-            // completes before the app is run for the first time.  But if that download has not yet
-            // completed, then the above call will not detect any faces.
-            //
-            // isOperational() can be used to check if the required native library is currently
-            // available.  The detector will automatically become operational once the library
-            // download completes on device.
+            // Note: La primera vez que la App usa la librería, la descarga al dispositivo
             Log.w(TAG, "Las dependencias de Face detector no se encuentran disponibles.");
         }
 
@@ -151,7 +127,7 @@ public class ReconocerCaraDesdeFilmacion extends AppCompatActivity {
     }
 
     /**
-     * Restarts the camera.
+     * Reinicia la cámara.
      */
     @Override
     protected void onResume() {
@@ -229,7 +205,7 @@ public class ReconocerCaraDesdeFilmacion extends AppCompatActivity {
     }
 
     //==============================================================================================
-    // Camera Source Preview
+    // Camera Preview
     //==============================================================================================
 
     /**
@@ -239,7 +215,7 @@ public class ReconocerCaraDesdeFilmacion extends AppCompatActivity {
      */
     private void startCameraSource() {
 
-        // check that the device has play services available.
+        // Verifica si el dispositivo tiene la instalncia de GoogleApi disponible
         int code = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(
                 getApplicationContext());
         if (code != ConnectionResult.SUCCESS) {
@@ -260,12 +236,12 @@ public class ReconocerCaraDesdeFilmacion extends AppCompatActivity {
     }
 
     //==============================================================================================
-    // Graphic Face Tracker
+    // Face Tracker
     //==============================================================================================
 
     /**
-     * Factory for creating a face tracker to be associated with a new face.  The multiprocessor
-     * uses this factory to create face trackers as needed -- one for each individual.
+     * Fábrica para crear un face tracker asociado a una nueva cara.  El multiprocesador
+     * usa esta "fábrica" para crear tantos face trackers como necesite-- uno por cada rostro.
      */
     private class GraphicFaceTrackerFactory implements MultiProcessor.Factory<Face> {
         @Override
@@ -288,7 +264,7 @@ public class ReconocerCaraDesdeFilmacion extends AppCompatActivity {
         }
 
         /**
-         * Start tracking the detected face instance within the face overlay.
+         * Inicia el seguimiento de la cara detectada
          */
         @Override
         public void onNewItem(int faceId, Face item) {
@@ -296,21 +272,22 @@ public class ReconocerCaraDesdeFilmacion extends AppCompatActivity {
         }
 
         /**
-         * Update the position/characteristics of the face within the overlay.
+         * Actualiza la posición de la cara
          */
         @Override
         public void onUpdate(FaceDetector.Detections<Face> detectionResults, Face face) {
             mOverlay.add(mFaceGraphic);
             mFaceGraphic.updateFace(face);
+            //anotamos la cantidad de caras diferentes detectadas
            textView.setText("Cara detectada Nº: " + (face.getId() +1));
-            takeScreenshot();
-            //shareScreen();
+            EnviarEMail mail = new EnviarEMail();
+            //enviamos un mail indicando que se detectó una nueva cara
+            mail.Enviar(face.getId() +1);
+
         }
 
         /**
-         * Hide the graphic when the corresponding face was not detected.  This can happen for
-         * intermediate frames temporarily (e.g., if the face was momentarily blocked from
-         * view).
+         * Oculta el recuadro cuando la cara ya no es detectada
          */
         @Override
         public void onMissing(FaceDetector.Detections<Face> detectionResults) {
@@ -328,49 +305,4 @@ public class ReconocerCaraDesdeFilmacion extends AppCompatActivity {
 
     }
 
-    public void takeScreenshot() {
-        View rootView = findViewById(android.R.id.content).getRootView();
-        rootView.setDrawingCacheEnabled(true);
-        saveBitmap(rootView.getDrawingCache());
-    }
-
-    public void saveBitmap(Bitmap bitmap) {
-        File imagePath = new File(Environment.getExternalStorageDirectory() + "/screenshot.jpeg");
-        FileOutputStream fos;
-        try {
-            fos = new FileOutputStream(imagePath);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-            fos.flush();
-            fos.close();
-        } catch (FileNotFoundException e) {
-            Log.e("GREC", e.getMessage(), e);
-        } catch (IOException e) {
-            Log.e("GREC", e.getMessage(), e);
-        }
-    }
-
-  /** private void shareScreen() {
-        try {
-
-            File cacheDir = new File(
-                    android.os.Environment.getExternalStorageDirectory(),
-                    "devdeeds");
-
-            if (!cacheDir.exists()) {
-                cacheDir.mkdirs();
-            }
-
-            String path = new File(
-                    android.os.Environment.getExternalStorageDirectory(),
-                    "devdeeds") + "/screenshot.jpg";
-
-            Utils.savePic(Utils.takeScreenShot(this), path);
-
-            Toast.makeText(getApplicationContext(), "Screenshot Saved", Toast.LENGTH_SHORT).show();
-
-
-        } catch (NullPointerException ignored) {
-            ignored.printStackTrace();
-        }
-    }*/
 }

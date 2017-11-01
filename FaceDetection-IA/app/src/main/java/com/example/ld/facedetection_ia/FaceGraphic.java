@@ -18,6 +18,7 @@ public class FaceGraphic extends GraphicOverlay.Graphic{
     private static final float ID_X_OFFSET = -50.0f;
     private static final float BOX_STROKE_WIDTH = 5.0f;
 
+    //definimos los diferentes colores de los recuadros de los rostros
     private static final int COLOR_CHOICES[] = {
             Color.BLUE,
             Color.CYAN,
@@ -35,17 +36,17 @@ public class FaceGraphic extends GraphicOverlay.Graphic{
 
     private volatile Face mFace;
     private int mFaceId;
-    private float mFaceHappiness;
+    //private float mFaceHappiness;
 
     FaceGraphic(GraphicOverlay overlay) {
         super(overlay);
 
         mCurrentColorIndex = (mCurrentColorIndex + 1) % COLOR_CHOICES.length;
         final int selectedColor = COLOR_CHOICES[mCurrentColorIndex];
-
+        //dibuja el recuadro
         mFacePositionPaint = new Paint();
         mFacePositionPaint.setColor(selectedColor);
-
+        //agrega el tecto en caso de que lo habilitemos más abajo (sonrisa y ojos)
         mIdPaint = new Paint();
         mIdPaint.setColor(selectedColor);
         mIdPaint.setTextSize(ID_TEXT_SIZE);
@@ -62,8 +63,7 @@ public class FaceGraphic extends GraphicOverlay.Graphic{
 
 
     /**
-     * Updates the face instance from the detection of the most recent frame.  Invalidates the
-     * relevant portions of the overlay to trigger a redraw.
+     * Actualiza la posición de la cara con el último frame.
      */
     void updateFace(Face face) {
         mFace = face;
@@ -71,7 +71,7 @@ public class FaceGraphic extends GraphicOverlay.Graphic{
     }
 
     /**
-     * Draws the face annotations for position on the supplied canvas.
+     * Dibuja las anotaciones en el canvas.
      */
     @Override
     public void draw(Canvas canvas) {
@@ -80,7 +80,7 @@ public class FaceGraphic extends GraphicOverlay.Graphic{
             return;
         }
 
-        // Draws a circle at the position of the detected face, with the face's track id below.
+        // Dibuja los círculos identificatorios en las caras detectadas,
         float x = translateX(face.getPosition().x + face.getWidth() / 2);
         float y = translateY(face.getPosition().y + face.getHeight() / 2);
         canvas.drawCircle(x, y, FACE_POSITION_RADIUS, mFacePositionPaint);
